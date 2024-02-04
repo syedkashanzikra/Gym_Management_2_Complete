@@ -1,0 +1,12 @@
+{
+  "appId": "com.coderstm.nitrofit28.members",
+  "appName": "NitroFIT28",
+  "bundledWebRuntime": false,
+  "npmClient": "yarn",
+  "webDir": "www",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 500
+    }
+  }
+}

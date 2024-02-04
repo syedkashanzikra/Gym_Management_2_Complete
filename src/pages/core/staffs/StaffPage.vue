@@ -1,0 +1,304 @@
+<template>
+  <q-page padding>
+    <base-form
+      v-if="loaded"
+      @submit="onSubmit"
+      @cancel="onCancel"
+      @reset="onReset"
+      :resetable="resetable"
+      :disable="disable"
+      :submited="submited"
+    >
+      <div class="q-gutter-md">
+        <base-section
+          flat
+          bordered
+          :title="$t('generalInformation')"
+          :description="$t('staff.generalDesc')"
+        >
+          <div class="col-xs-12 col-sm-4">
+            <base-label required>{{ $t("firstName") }}</base-label>
+            <base-input name="first_name" v-model="staff.first_name" />
+          </div>
+          <div class="col-xs-12 col-sm-4">
+            <base-label required>{{ $t("surname") }}</base-label>
+            <base-input name="last_name" v-model="staff.last_name" />
+          </div>
+          <div class="col-xs-12 col-sm-4">
+            <base-label required>{{ $t("emailAddress") }}</base-label>
+            <base-input name="email" v-model="staff.email" type="email" />
+          </div>
+          <div class="col-xs-12 col-sm-4">
+            <base-label>{{ $t("phoneNumber") }}</base-label>
+            <base-input
+              name="phone_number"
+              v-model="staff.phone_number"
+              type="tel"
+            />
+          </div>
+          <div class="col-xs-12 col-sm-4">
+            <base-label>{{ $t("keyFob") }}</base-label>
+            <base-input name="collect_id" v-model="staff.rfid" />
+          </div>
+        </base-section>
+        <base-section
+          flat
+          bordered
+          :title="$t('security')"
+          :description="$t('staff.securityInfo')"
+        >
+          <div class="col-xs-12 col-sm-4">
+            <base-label required>{{ $t("password") }}</base-label>
+            <base-input
+              :type="isPwd ? 'password' : 'text'"
+              v-model="staff.password"
+              color="blue-grey-14"
+              name="password"
+            >
+              <template v-slot:append>
+                <q-icon
+                  :name="isPwd ? 'fal fa-eye-slash' : 'fal fa-eye'"
+                  class="cursor-pointer"
+                  @click="isPwd = !isPwd"
+                  size="16px"
+                />
+              </template>
+            </base-input>
+          </div>
+          <div class="col-xs-12 col-sm-4">
+            <base-label required>{{ $t("confirmPassword") }}</base-label>
+            <base-input
+              :type="isConfPwd ? 'password' : 'text'"
+              v-model="staff.password_confirmation"
+              color="blue-grey-14"
+              name="password_confirmation"
+            >
+              <template v-slot:append>
+                <q-icon
+                  :name="isConfPwd ? 'fal fa-eye-slash' : 'fal fa-eye'"
+                  class="cursor-pointer"
+                  @click="isConfPwd = !isConfPwd"
+                  size="16px"
+                />
+              </template>
+            </base-input>
+          </div>
+          <div class="col-xs-12">
+            <q-checkbox
+              dense
+              v-model="staff.is_active"
+              :label="$t('active')"
+              color="green"
+            />
+          </div>
+          <div class="col-xs-12">
+            <q-checkbox
+              dense
+              v-model="staff.is_instructor"
+              :label="$t('isInstructor')"
+              color="green"
+            />
+          </div>
+        </base-section>
+        <base-section
+          flat
+          bordered
+          :title="$t('groupsAndPermissions')"
+          :description="$t('staff.permissionDesc')"
+        >
+          <div class="col-sm-4 col-xs-12">
+            <base-label>{{ $t("label.groups") }}</base-label>
+            <base-select
+              bg-color="white"
+              :placeholder="$t('placeholder.select')"
+              dense
+              outlined
+              v-model="staff.groups"
+              :filter-method="groupList"
+              @update:model-value="onChangeGroup"
+              map-options
+              use-filter
+              multiple
+              use-chips
+              option-label="name"
+              option-value="id"
+            />
+          </div>
+          <div class="col-xs-12">
+            <base-label>{{ $t("permissions") }}</base-label>
+            <div class="row q-pt-md q-col-gutter-md">
+              <div
+                class="col-xs-12 col-sm-4"
+                v-for="(item, index) in modules"
+                :key="item.id"
+              >
+                <permissions-module
+                  has-icon
+                  edit
+                  v-model="staff.permissions"
+                  :group-permissions="staff.groupPermissions"
+                  :module="modules[index]"
+                />
+              </div>
+            </div>
+          </div>
+        </base-section>
+      </div>
+    </base-form>
+    <skeleton-single-page v-else />
+  </q-page>
+</template>
+
+<script>
+import { cloneDeep } from "lodash";
+import { mapActions } from "pinia";
+import PermissionsModule from "components/PermissionsModule.vue";
+import SkeletonSinglePage from "components/skeleton/SkeletonSinglePage.vue";
+import { useStaffStore } from "stores/staff";
+import { useAppStore } from "stores/app";
+import { useGroupStore } from "stores/group";
+
+const staff = {
+  groups: [],
+  permissions: [],
+  groupPermissions: [],
+  is_active: false,
+};
+
+export default {
+  components: {
+    PermissionsModule,
+    SkeletonSinglePage,
+  },
+  data() {
+    return {
+      default: cloneDeep(staff),
+      staff: cloneDeep(staff),
+      modules: [],
+      groups: [],
+      selected: [],
+      isPwd: true,
+      isConfPwd: true,
+      is_instructor: false,
+      loaded: false,
+      submited: false,
+    };
+  },
+  methods: {
+    ...mapActions(useStaffStore, ["store", "show", "update"]),
+    ...mapActions(useAppStore, ["getModules"]),
+    ...mapActions(useGroupStore, {
+      groupList: "get",
+    }),
+    onSubmit(props) {
+      console.func("pages/core/staffs/StaffPage:methods.onSubmit()", arguments);
+      this.submited = true;
+      const method = this.creating ? this.store : this.update;
+      method(this.staff)
+        .then(({ data, message }) => {
+          this.submited = false;
+          this.$q.notify(message);
+          this.staff = data;
+          this.default = cloneDeep(data);
+          this.$router.push({
+            name: "Single Staff",
+            params: {
+              id: data.id,
+            },
+            query: {
+              action: "edit",
+            },
+          });
+        })
+        .catch((error) => {
+          this.submited = false;
+          this.$core.error(error, { title: this.$t("dialog.title.error") });
+        });
+    },
+    onReset(props) {
+      console.func("pages/core/staffs/StaffPage:methods.onReset()", arguments);
+      this.loaded = false;
+      this.$nextTick(() => {
+        this.staff = cloneDeep(this.default);
+        this.loaded = true;
+      });
+    },
+    onCancel(props) {
+      console.func("pages/core/staffs/StaffPage:methods.onCancel()", arguments);
+      this.$router.go(-1);
+    },
+    onChangeGroup(groups) {
+      console.func(
+        "pages/core/staffs/StaffPage:methods.onChangeGroup()",
+        arguments
+      );
+      if (groups.length < 1) {
+        this.staff.groupPermissions = [];
+        return;
+      }
+      groups.forEach((group) => {
+        if (group.permissions.length) {
+          group.permissions.forEach((permission) => {
+            let item = this.staff.groupPermissions.find(
+              (item) => item.id === permission.id
+            );
+            if (item && permission.pivot.access !== null) {
+              item.access = permission.pivot.access;
+            } else if (!item) {
+              this.staff.groupPermissions.push({
+                id: permission.id,
+                access: permission.pivot.access,
+              });
+            }
+          });
+        }
+      });
+    },
+  },
+  async mounted() {
+    await this.getModules().then((data) => {
+      this.modules = data.modules;
+      this.groups = data.groups;
+    });
+    if (!this.creating) {
+      this.show(this.id)
+        .then((staff) => {
+          this.staff = staff;
+          this.default = cloneDeep(staff);
+          this.loaded = true;
+        })
+        .catch((error) => {
+          this.$emit("error", error);
+        });
+    } else {
+      this.loaded = true;
+    }
+  },
+  computed: {
+    edit() {
+      return ["add", "edit"].includes(this.action) || this.id === "add";
+    },
+    creating() {
+      return this.id === "add";
+    },
+    id() {
+      return this.$route.params.id;
+    },
+    action() {
+      return this.$route.query.action;
+    },
+    disable() {
+      return (
+        this.default &&
+        JSON.stringify(this.staff) === JSON.stringify(this.default)
+      );
+    },
+    resetable() {
+      return (
+        this.default &&
+        JSON.stringify(this.staff) !== JSON.stringify(this.default)
+      );
+    },
+  },
+};
+</script>

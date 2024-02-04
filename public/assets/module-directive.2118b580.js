@@ -1,0 +1,1 @@
+import{b as m,u as r}from"./index.46fdd451.js";const i=r();var p=m(async({app:a})=>{a.directive("module",(t,c,e)=>{const{arg:n}=c;if(!i.hasModule(n)){const o=document.createComment(` module:${n} `);e.elm=o,e.text=" ",e.isComment=!0,e.context=void 0,e.tag=void 0,e.componentInstance&&(e.componentInstance.$el=o),t.parentNode&&t.parentNode.replaceChild(o,t)}})});export{p as default};

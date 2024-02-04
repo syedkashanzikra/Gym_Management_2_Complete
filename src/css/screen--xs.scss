@@ -1,0 +1,88 @@
+body {
+  &.screen--xs {
+    .file-selector-uploader .file-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .q-header .base-current-user {
+      .user-label {
+        width: auto;
+      }
+      .q-btn-dropdown__arrow {
+        display: none;
+      }
+    }
+
+    $cols: (
+      1: 5.88%,
+      2: 14.22%,
+      3: 22.55%,
+      4: 30.88%,
+      5: 39.22%,
+      6: 47.55%,
+      7: 55.88%,
+      8: 64.22%,
+      9: 72.55%,
+      10: 80.88%,
+      11: 89.22%,
+      12: 97.55%,
+    );
+
+    @each $name, $width in $cols {
+      .toolbar-item[width="#{$name}"] {
+        // width: $width;
+      }
+    }
+    .toolbar-item {
+      > * {
+        width: 100% !important;
+      }
+    }
+    .base-enquiry-reply-car,
+    .base-task-reply-card {
+      .actions-buttons > :last-child {
+        width: 100%;
+      }
+    }
+    .file-selector-dialog-uploader {
+      .file-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    .main-table {
+      thead tr:first-child th {
+        top: 0;
+      }
+      .q-table__middle.scroll {
+        overflow: scroll;
+      }
+    }
+    .signup-container {
+      padding: 20px !important;
+    }
+    .top-right-inner.responsive {
+      .toolbar-item {
+        // display: block;
+      }
+    }
+    .fc-toolbar-chunk:first-child {
+      width: 100vw;
+    }
+    .fc-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+    .pos-toolbar {
+      flex-wrap: wrap;
+      .category-select,
+      .product-search {
+        width: calc(100% - 51px) !important;
+        margin: 0;
+      }
+      .product-search,
+      .qr-scanner {
+        margin-top: 8px;
+      }
+    }
+  }
+}

@@ -1,0 +1,101 @@
+<?php
+
+return [
+    'account_disabled' => 'Your account has been disabled and cannot access this application. Please contact with admin.',
+    'logout' => 'You have been successfully logged out!',
+    'password' => [
+        'changed' => 'Password has been changed successfully!',
+        'reset' => 'Password reset successfully!'
+    ],
+    'invalid_token' => 'Invalid token or token may expired!',
+    'invalid_user' => 'User not found!',
+    'reset_throttled' => 'Reset password email already sent. Please try again after sometime!',
+    'reset_email_sent' => 'Password reset link sent successfully!',
+    'payment_method' => [
+        'already' => 'Payment method already exists in your account.',
+        'success' => 'You have successfully added new payment method.',
+        'default' => 'You have successfully updated default payment method.',
+        'destory' => 'You have successfully removed payment method.',
+        'authenticate' => 'We are unable to authenticate your payment method. Please choose a different payment method or try again.',
+    ],
+    'subscription' => [
+        'none' => 'To access exclusive gym features, please subscribe to a plan. You are not currently subscribed to any plan.',
+        'canceled' => 'You have cancelled your subscription. Your subscription will end on :date',
+        'past_due' => 'To activate your subscription, please complete payment of :amount.',
+        'downgrade' => 'Price change will become effective on :date',
+        'active' => 'Next invoice :amount on :date',
+        'success' => '{0} You have successfully subscribe to :plan plan.|[1,*] Please contact our reception to make payment and complete your subscription!',
+        'cancel' => 'You have successfully cancelled your subscription.',
+        'upgraded' => 'You have successfully upgraded your subscription.',
+        'resume' => 'You have successfully resume your subscription.',
+        'due_payment' => 'Due payment has been received.',
+    ],
+    'settings_update' => 'App settings has been updated successfully!',
+    'files' => [
+        'destroy' => '{1} File has been deleted successfully!|[2,*] Files has been deleted successfully!',
+        'restored' => '{1} File has been restored successfully!|[2,*] Files has been restored successfully!',
+        'not_found' => 'File not found!',
+    ],
+    'groups' => [
+        'store' => 'Group has been created successfully!',
+        'updated' => 'Group has been updated successfully!',
+        'destroy' => '{1} Group has been deleted successfully!|[2,*] Groups has been deleted successfully!',
+        'restored' => '{1} Group has been restored successfully!|[2,*] Groups has been restored successfully!',
+    ],
+    'plans' => [
+        'store' => 'Plan has been created successfully!',
+        'updated' => 'Plan has been updated successfully!',
+        'destroy' => '{1} Plan has been deleted successfully!|[2,*] Plans has been deleted successfully!',
+        'restored' => '{1} Plan has been restored successfully!|[2,*] Plans has been restored successfully!',
+        'status' => 'Plan marked as :type successfully!',
+    ],
+    'logs' => [
+        'updated' => 'Log has been updated successfully!',
+        'destroy' => 'Log has been deleted successfully!',
+        'reply' => 'Log reply has been created successfully!',
+    ],
+    'tasks' => [
+        'store' => 'Task has been created successfully!',
+        'updated' => 'Task has been updated successfully!',
+        'destroy' => '{1} Task has been deleted successfully!|[2,*] Tasks has been deleted successfully!',
+        'restored' => '{1} Task has been restored successfully!|[2,*] Tasks has been restored successfully!',
+        'status' => 'Task marked as :type successfully!',
+        'reply' => 'Reply has been created successfully!',
+    ],
+    'enquiry' => [
+        'store' => 'Enquiry has been created successfully!',
+        'updated' => 'Enquiry has been updated successfully!',
+        'destroy' => '{1} Enquiry has been deleted successfully!|[2,*] Enquiries has been deleted successfully!',
+        'restored' => '{1} Enquiry has been restored successfully!|[2,*] Enquiries has been restored successfully!',
+        'status' => 'Enquiry marked as :type successfully!',
+        'reply' => 'Reply has been created successfully!',
+    ],
+    'staff' => [
+        'store' => 'Staff account has been created successfully!',
+        'updated' => 'Staff account has been updated successfully!',
+        'destroy' => '{1} Staff account has been deleted successfully!|[2,*] Staff accounts has been deleted successfully!',
+        'restored' => '{1} Staff account has been restored successfully!|[2,*] Staff accounts has been restored successfully!',
+        'status' => 'Staff account marked as :type successfully!',
+        'password' => 'Password reset link sent successfully!',
+        'admin_error' => 'Staff can not update permissions of his/her self account.',
+        'admin_success' => 'Staff account :type as admin successfully!',
+    ],
+    'users' => [
+        'store' => 'User account has been created successfully!',
+        'updated' => 'User account has been updated successfully!',
+        'destroy' => '{1} User account has been deleted successfully!|[2,*] User accounts has been deleted successfully!',
+        'restored' => '{1} User account has been restored successfully!|[2,*] User accounts has been restored successfully!',
+        'status' => 'User account marked as :type successfully!',
+        'password' => 'Password reset link sent successfully!',
+        'note' => 'Note has been added successfully!',
+    ],
+
+    'attributes' => [
+        'active' => 'active',
+        'deactive' => 'deactive',
+        'archived' => 'archived',
+        'unarchive' => 'unarchive',
+        'marked' => 'marked',
+        'unmarked' => 'unmarked',
+    ]
+];

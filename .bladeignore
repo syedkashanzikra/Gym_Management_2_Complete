@@ -1,0 +1,4 @@
+# Ignore email templates
+resources/views/emails/**
+resources/views/vendor/coderstm/emails/**
+vendor/coderstm/laravel-core/resources/views/emails/user
